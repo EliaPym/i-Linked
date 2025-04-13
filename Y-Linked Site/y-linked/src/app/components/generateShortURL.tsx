@@ -21,8 +21,7 @@ export default function GenerateShortURL({ className }: { className?: string }) 
       return;
     }
     
-    // Use local API route instead of calling the external API directly
-    fetch("/api/shorten", {
+    fetch("https://api.y-l.ink/Shorten", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +30,7 @@ export default function GenerateShortURL({ className }: { className?: string }) 
     })
       .then(response => {
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          throw new Error(`HTTP error! Status: ${response.status} ${response.statusText}`);
         }
         return response.json();
       })
