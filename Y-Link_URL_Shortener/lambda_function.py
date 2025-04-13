@@ -48,7 +48,7 @@ def redirect_to_long_url(short_code: str):
 
 @app.post("/Shorten")
 async def shorten_url(request: URLRequest):
-    url_regex = "^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$"
+    url_regex = "^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})"
     long_url = request.long_url
     re_match = re.match(url_regex, long_url)
     
@@ -66,10 +66,10 @@ async def shorten_url(request: URLRequest):
             short_code = response["Items"][0]["ShortURL"]
             short_url = f"https://y-l.ink/{short_code}"
             return JSONResponse(
-                content={"Shortened URL (new)": short_url},
+                content={"short_url": short_url},
                 status_code=200,
                 headers={
-                    "Access-Control-Allow-Origin": "https://y-l.ink",
+                    "Access-Control-Allow-Origin": "https://y-linked.com",
                     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
                     "Access-Control-Allow-Headers": "Content-Type"
                 }
@@ -86,10 +86,10 @@ async def shorten_url(request: URLRequest):
     # return new shortened URL
     short_url = f"https://y-l.ink/{short_code}"
     return JSONResponse(
-            content={"Shortened URL (new)": short_url},
+            content={"short_url": short_url},
             status_code=200,
             headers={
-                "Access-Control-Allow-Origin": "https://y-l.ink",
+                "Access-Control-Allow-Origin": "https://y-linked.com",
                 "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
                 "Access-Control-Allow-Headers": "Content-Type"
             }
