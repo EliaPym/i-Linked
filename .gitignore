@@ -1,8 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-/.pnp
+Y-Linked Site/y-linked/node_modules
+Y-Linked Site/y-linked/.pnp
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -11,14 +11,14 @@
 !.yarn/versions
 
 # testing
-/coverage
+Y-Linked Site/y-linked/coverage
 
 # next.js
-/.next/
-/out/
+Y-Linked Site/y-linked/.next/
+Y-Linked Site/y-linked/out/
 
 # production
-/build
+Y-Linked Site/y-linked/build
 
 # misc
 .DS_Store
