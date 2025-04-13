@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Redirecting...</title>
+  <script>
+    const shortCode = window.location.pathname.replace("/", "");
+    fetch(`https://api.y-l.ink/${shortCode}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data["Original URL"]) {
+          window.location.href = data["Original URL"];
+        } else {
+          document.body.innerHTML = "URL not found.";
+        }
+      })
+      .catch(err => {
+        console.error("Error fetching URL:", err);
+        document.body.innerHTML = "Redirect failed.";
+      });
+  </script>  
+</head>
+<body>
+  <p>Redirecting...</p>
+</body>
+</html>

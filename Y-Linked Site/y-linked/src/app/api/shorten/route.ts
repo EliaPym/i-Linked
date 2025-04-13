@@ -25,27 +25,35 @@ export async function POST(request: Request) {
     const apiResponse = await response.json();
     console.log("API response data:", apiResponse);
     
-    // Parse the stringified JSON body if it exists
+    // Check for the new response format
+    if (apiResponse && apiResponse["Shortened URL"]) {
+      // Return with consistent field name for the frontend
+      return NextResponse.json({ 
+        short_url: apiResponse["Shortened URL"]
+      });
+    }
+    
+    // Handle the possibility of the old nested format (for backward compatibility)
     if (apiResponse && apiResponse.body) {
       try {
-        // The body is a JSON string that needs to be parsed
         const bodyData = JSON.parse(apiResponse.body);
-        
-        // Return only the needed data from the parsed body
-        return NextResponse.json({ 
-          short_url: bodyData.short_url 
-        });
+        if (bodyData.short_url) {
+          return NextResponse.json({ 
+            short_url: bodyData.short_url 
+          });
+        } else if (bodyData["Shortened URL"]) {
+          return NextResponse.json({ 
+            short_url: bodyData["Shortened URL"] 
+          });
+        }
       } catch (parseError) {
         console.error("Error parsing body:", parseError);
-        return NextResponse.json(
-          { error: "Failed to parse API response body" },
-          { status: 500 }
-        );
       }
     }
     
+    // If we can't find the shortened URL in any format
     return NextResponse.json(
-      { error: "Invalid response format from API" },
+      { error: "Couldn't find shortened URL in API response" },
       { status: 500 }
     );
   } catch (error) {
