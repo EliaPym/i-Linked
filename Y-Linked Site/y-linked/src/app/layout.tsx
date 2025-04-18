@@ -27,7 +27,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <div className="spin_gradient">
         {children}
+        </div>
       </body>
     </html>
   );

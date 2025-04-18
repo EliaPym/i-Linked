@@ -20,7 +20,50 @@
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@keyframes spin-gradient {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Create a spinning gradient effect - replace the existing gradient animation */
+.spin_gradient {
+  position: relative;
+  overflow: hidden;
+}
+
+.spin_gradient::before {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(30deg, #1CB5E0 20%, #000851 60%);
+  animation: spin-gradient 60s linear infinite;
+  z-index: -1;
+}
+
+.spin_gradient > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
