@@ -1,4 +1,8 @@
+import { Button, InputAdornment, TextField, Tooltip } from "@mui/material";
 import { useState } from "react";
+import Typography from "@mui/material/Typography";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
 
 export default function GenerateShortURL({
   className,
@@ -8,6 +12,7 @@ export default function GenerateShortURL({
   const [shortUrl, setShortUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const [url, setUrl] = useState<string>("");
   const [customAlias, setCustomAlias] = useState<string>("");
@@ -33,6 +38,16 @@ export default function GenerateShortURL({
     const value = e.target.value;
     setCustomAlias(value);
     setIsValidAlias(aliasRegex.test(value));
+  };
+
+  const handleCopyClick = () => {
+    navigator.clipboard.writeText(shortUrl || "");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleTooltipClose = () => {
+    setCopied(false);
   };
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -96,50 +111,70 @@ export default function GenerateShortURL({
     >
       <form
         onSubmit={handleSubmit}
-        className="w-full flex flex-col items-center"
+        className="w-full flex flex-col items-center gap-y-8"
       >
-        <input
-          type="text"
+        <TextField
+          id="url"
           name="url"
-          placeholder="Enter your URL here..."
-          className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          disabled={isLoading}
+          label="Enter a URL to shorten"
+          placeholder="https://example.com"
           value={url}
+          variant="outlined"
+          fullWidth
+          helperText={
+            !isValidUrl &&
+            url && <div className="text-red-500 mt-2">Invalid URL format</div>
+          }
           onChange={handleUrlChange}
-          required
-        />
-        <div className="flex flex-row w-full h-fit my-5 items-center font-mono">
-          <p className="whitespace-nowrap my-auto mr-0">https://y-l.ink/</p>
-          <input
-            type="text"
-            name="customAlias"
-            placeholder={`custom-alias`}
-            className="w-full p-0.5 border-b border-gray-300 shadow-sm focus:outline-none"
-            disabled={isLoading}
-            value={customAlias}
-            onChange={handleAliasChange}
-          />
-        </div>
-        <button
-          type="submit"
-          className={`mt-4 px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-            isLoading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          error={!isValidUrl && url ? true : false}
           disabled={isLoading}
+        />
+        <TextField
+          label="Custom URL Alias (optional)"
+          id="custom_alias"
+          name="customAlias"
+          value={customAlias}
+          placeholder="custom-alias"
+          multiline
+          fullWidth
+          sx={{ fontFamily: "Monospace" }}
+          onChange={handleAliasChange}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Typography sx={{ fontFamily: "Monospace" }}>
+                    https://y-l.ink/
+                  </Typography>
+                </InputAdornment>
+              ),
+            },
+          }}
+          disabled={isLoading}
+          helperText={
+            !isValidAlias &&
+            customAlias &&
+            `Invalid alias format (${aliasMinLength}-${aliasMaxLength} characters, letters, numbers, underscores, or dashes)`
+          }
+          variant="standard"
+          error={!isValidAlias && customAlias ? true : false}
+          inputProps={{ style: { fontFamily: "monospace" } }}
+        />
+        <Button
+          variant="contained"
+          disabled={
+            isLoading ||
+            !isValidUrl ||
+            ((customAlias ? true : false) && !isValidAlias)
+          }
+          loading={isLoading}
+          loadingPosition="end"
+          endIcon={<PlayCircleOutlineIcon />}
+          type="submit"
         >
-          {isLoading ? "Generating..." : "Generate!"}
-        </button>
+          {isLoading ? "Generating..." : "Generate"}
+        </Button>
       </form>
-
-      {!isValidUrl && url && (
-        <div className="text-red-500 mt-2">Invalid URL format</div>
-      )}
-      {!isValidAlias && customAlias && (
-        <div className="text-red-500 mt-2">
-          Invalid alias format ({aliasMinLength}-{aliasMaxLength} characters,
-          letters, numbers, underscores, or dashes)
-        </div>
-      )}
 
       {/* Results and error handling */}
       {error && (
@@ -149,7 +184,7 @@ export default function GenerateShortURL({
       )}
 
       {
-        /*shortUrl &&*/ <div className="mt-4 p-3 w-full bg-green-300 border border-green-400 text-green-800 rounded">
+        shortUrl && <div className="mt-4 p-3 w-full bg-green-300 border border-green-400 text-green-800 rounded">
           <p className="font-semibold">Your shortened URL:</p>
           <a
             href={shortUrl}
@@ -157,15 +192,21 @@ export default function GenerateShortURL({
             rel="noopener noreferrer"
             className="text-blue-600 hover:underline break-all"
           >
-            {shortUrl} https://y-l.ink/testURL
+            {shortUrl}
           </a>
-          <button
-            onClick={() => {
-              navigator.clipboard.writeText(shortUrl);
-              alert("URL copied to clipboard!");
-            }}
-            className="mt-2 px-3 py-1 bg-gray-200 text-gray-800 rounded-md text-sm hover:bg-gray-300"
-          >Copy</button>
+          <Tooltip
+            title={copied ? "URL Copied!" : "Copy to clipboard"}
+            arrow
+            placement="top"
+            onClose={handleTooltipClose}
+          >
+            <button
+              onClick={handleCopyClick}
+              className="mt-2 px-3 py-1 text-gray-800 rounded-md text-sm hover:text-blue-500"
+            >
+              <ContentCopyIcon fontSize="small" className="mr-1" />
+            </button>
+          </Tooltip>
         </div>
       }
     </div>

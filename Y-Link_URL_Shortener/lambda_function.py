@@ -15,7 +15,7 @@ url_regex = "^(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.
 
 class shortenURLRequest(BaseModel):
     long_url: str
-    custom_url: str
+    custom_url: str | None = None
     
 class qrURLRequest(BaseModel):
     long_url: str
@@ -99,7 +99,7 @@ async def shorten_url(request: shortenURLRequest):
     short_code = None
     
     # Generate corresponding short code for long URL
-    if request.custom_url != "":
+    if request.custom_url is not None and request.custom_url != "":
         short_code = request.custom_url
     else: 
         short_code = str(uuid.uuid4())[:6]

@@ -1,9 +1,19 @@
 "use client";
 
 import GenerateShortURL from "./components/generateShortURL";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 export default function Home() {
   return (
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
       <div className="flex flex-col items-center justify-center min-h-screen p-4">
         <h1 className="text-4xl font-bold text-center">
           Welcome to Y-Linked!
@@ -16,5 +26,6 @@ export default function Home() {
         </p>
         <GenerateShortURL className="mt-16" />
       </div>
+    </ThemeProvider>
   );
 }
