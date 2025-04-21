@@ -66,7 +66,7 @@ export default function GenerateShortURL({
       return;
     }
 
-    fetch("https://api.y-l.ink/Shorten", {
+    fetch("https://api.i-l.ink/Shorten", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -123,7 +123,11 @@ export default function GenerateShortURL({
           fullWidth
           helperText={
             !isValidUrl &&
-            url && <div className="text-red-500 mt-2">Invalid URL format</div>
+            url && (
+              <div className="text-red-500 mt-2">
+                Invalid URL format, must start with https:// or www.
+              </div>
+            )
           }
           onChange={handleUrlChange}
           error={!isValidUrl && url ? true : false}
@@ -144,7 +148,7 @@ export default function GenerateShortURL({
               startAdornment: (
                 <InputAdornment position="start">
                   <Typography sx={{ fontFamily: "Monospace" }}>
-                    https://y-l.ink/
+                    https://i-L.ink/
                   </Typography>
                 </InputAdornment>
               ),
@@ -183,8 +187,8 @@ export default function GenerateShortURL({
         </div>
       )}
 
-      {
-        shortUrl && <div className="mt-4 p-3 w-full bg-green-300 border border-green-400 text-green-800 rounded">
+      {shortUrl && (
+        <div className="mt-4 p-3 w-full bg-green-300 border border-green-400 text-green-800 rounded">
           <p className="font-semibold">Your shortened URL:</p>
           <a
             href={shortUrl}
@@ -208,7 +212,7 @@ export default function GenerateShortURL({
             </button>
           </Tooltip>
         </div>
-      }
+      )}
     </div>
   );
 }

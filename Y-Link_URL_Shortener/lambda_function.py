@@ -31,7 +31,7 @@ def options_handler(short_code: str):
         content={},
         status_code=200,
         headers={
-            "Access-Control-Allow-Origin": "https://y-l.ink",
+            "Access-Control-Allow-Origin": "https://i-l.ink",
             "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
             "Access-Control-Allow-Headers": "Content-Type"
         }
@@ -48,7 +48,7 @@ def redirect_to_long_url(short_code: str):
             content={"Original URL": response["Item"]["LongURL"]},
             status_code=200,
             headers={
-                "Access-Control-Allow-Origin": "https://y-l.ink",
+                "Access-Control-Allow-Origin": "https://i-l.ink",
                 "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
                 "Access-Control-Allow-Headers": "Content-Type"
             }
@@ -60,7 +60,7 @@ def options_handler(request: shortenURLRequest):
         content={},
         status_code=200,
         headers={
-            "Access-Control-Allow-Origin": "https://y-linked.com",
+            "Access-Control-Allow-Origin": "https://i-linked.org",
             "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
             "Access-Control-Allow-Headers": "Content-Type"
         }
@@ -83,12 +83,12 @@ async def shorten_url(request: shortenURLRequest):
         )
         if "Items" in response and response["Items"]:
             short_code = response["Items"][0]["ShortURL"]
-            short_url = f"https://y-l.ink/{short_code}"
+            short_url = f"https://i-l.ink/{short_code}"
             return JSONResponse(
                 content={"short_url": short_url},
                 status_code=200,
                 headers={
-                    "Access-Control-Allow-Origin": "https://y-linked.com",
+                    "Access-Control-Allow-Origin": "https://i-linked.org",
                     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
                     "Access-Control-Allow-Headers": "Content-Type"
                 }
@@ -108,12 +108,12 @@ async def shorten_url(request: shortenURLRequest):
     table.put_item(Item={"ShortURL": short_code, "LongURL": long_url})
     
     # return new shortened URL
-    short_url = f"https://y-l.ink/{short_code}"
+    short_url = f"https://i-l.ink/{short_code}"
     return JSONResponse(
             content={"short_url": short_url},
             status_code=200,
             headers={
-                "Access-Control-Allow-Origin": "https://y-linked.com",
+                "Access-Control-Allow-Origin": "https://i-linked.org",
                 "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
                 "Access-Control-Allow-Headers": "Content-Type"
             }

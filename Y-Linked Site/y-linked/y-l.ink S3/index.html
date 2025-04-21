@@ -5,13 +5,21 @@
   <title>Redirecting...</title>
   <script>
     const shortCode = window.location.pathname.replace("/", "");
-    fetch(`https://api.y-l.ink/${shortCode}`)
+    fetch(`https://api.i-l.ink/${shortCode}`)
       .then(res => res.json())
       .then(data => {
         if (data["Original URL"]) {
-          window.location.href = data["Original URL"];
+          const originalUrl = data["Original URL"];
+          // Check if URL starts with http:// or https://, if not, add http://
+          const urlToRedirect = /^https?:\/\//i.test(originalUrl) ? 
+            originalUrl : 
+            "http://" + originalUrl;
+          // Update the original value with the corrected URL
+          data["Original URL"] = urlToRedirect;
+          window.location.replace(data["Original URL"]);
         } else {
           document.body.innerHTML = "URL not found.";
+          window.location.replace("https://i-linked.org")
         }
       })
       .catch(err => {

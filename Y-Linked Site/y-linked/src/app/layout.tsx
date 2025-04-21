@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Y-Linked | URL Shortener",
-  description: "Shorten your URLs with Y-Linked",
+  title: "i-Linked | URL Shortener",
+  description: "Shorten your URLs with i-Linked",
 };
 
 export default function RootLayout({
@@ -25,12 +25,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased spin_gradient`}
       >
-        <div className="spin_gradient">
-        {children}
-        </div>
+        <div>{children}</div>
       </body>
+      <footer className="w-full">
+        <div className="flex justify-center mb-4">
+          Contact:{" "}
+          <a href="mailto:support@i-Linked.org" className="ml-2 underline">
+            support@i-Linked.org
+          </a>
+        </div>
+      </footer>
     </html>
   );
 }
