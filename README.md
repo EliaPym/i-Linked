@@ -1,6 +1,6 @@
-# Y-Link
+# i-Linked
 
-A quick and easy to use URL shortening service.#
+A quick and easy to use URL shortening service.
 
 ## Features
 
@@ -23,19 +23,15 @@ A quick and easy to use URL shortening service.#
     - Tailwind
 - REST API
 
-![alt text](https://i-linked.org/Github%20Repo%20Files/URL%20Shortener%20Diagram%20Dark.png "i-Linked Tech Stack Diagram")
+![i-Linked Tech Stack Diagram](https://i-linked.org/Github%20Repo%20Files/URL%20Shortener%20Diagram%20Dark.png "i-Linked Tech Stack Diagram")
 
 ## Installation
 
 ```bash
-git clone https://github.com/yourusername/Y-Link.git
-cd Y-Link
+git clone https://github.com/yourusername/i-Linked.git
+cd i-Linked
 npm install
 ```
-
-## Configuration
-
-Create a `.env` file in the root directory with the following variables:
 
 ## API Documentation
 
