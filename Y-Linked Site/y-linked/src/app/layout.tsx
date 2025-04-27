@@ -25,18 +25,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased spin_gradient`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased spin_gradient h-full justify-between`}
       >
-        <div>{children}</div>
+        <main className="flex-grow">{children}</main>
+        <footer className="w-full">
+          <div className="flex justify-center mb-4">
+            Contact:{" "}
+            <a href="mailto:support@i-Linked.org" className="ml-2 underline">
+              support@i-Linked.org
+            </a>
+          </div>
+        </footer>
       </body>
-      <footer className="w-full">
-        <div className="flex justify-center mb-4">
-          Contact:{" "}
-          <a href="mailto:support@i-Linked.org" className="ml-2 underline">
-            support@i-Linked.org
-          </a>
-        </div>
-      </footer>
     </html>
   );
 }
